@@ -1,0 +1,10 @@
+<p>course-details works!</p>
+
+
+<p>{{course.name}}</p>
+<p>{{categoryId?.name}}</p>
+<img src="{{categoryId?.icon}}"/>
+<p>{{course.start}}</p>
+<img src="{{course.image}}"/>
+<button *ngIf="isLecturer" (click)="UpdateCourseDetails">update course details</button>
+

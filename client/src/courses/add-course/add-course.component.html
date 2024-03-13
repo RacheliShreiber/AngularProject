@@ -1,0 +1,64 @@
+<p>add-course works!</p>
+
+<!-- <ul class="list-group">
+    <li *ngFor="let c of categories" >
+        {{c.name}}
+    </li>
+</ul> -->
+
+
+
+<form [formGroup]="addCourse" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label" for="name">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="category">Category</label>
+      <select class="form-input" formControlName="category">
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Count of Lessons</label>
+      <input type="number" class="form-control" formControlName="countOfLessons">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Start</label>
+      <input type="date" class="form-control" formControlName="start">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Study</label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="radio" id="studyF" value="frontal" formControlName="study">
+        <label class="form-check-label" for="studyF">Frontal</label>
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="radio" id="studyZ" value="zoom" formControlName="study">
+        <label class="form-check-label" for="studyZ">Zoom</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="image">Image</label>
+      <input type="text" class="form-control" id="image" formControlName="image">
+    </div>
+
+
+
+    <div class="mb-3" *ngFor="let control of addCourse.get('syllabus').value; let i = index">
+        <input type="text" class="form-control" formControlName="syllabus" #S [value]="xxx" (blur)="onSyllabusBlur(S.value,i)">
+      </div>
+      <!-- <div class="mb-3" (blur)="onSyllabusBlur($event.target)">
+        <input type="text" class="form-control" id="syllabus" formControlName="syllabus">
+        
+      </div>  -->
+
+<div >
+
+</div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  
+  <!-- <button type="button" class="btn btn-primary" (blur)="onAddNewSyllabusItem(newItem.value)">Add Item</button> -->

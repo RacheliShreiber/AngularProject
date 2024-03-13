@@ -1,0 +1,22 @@
+<form [formGroup]="addUser" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label" for="name">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+      <div *ngIf="validN&&addUser.controls['name'].errors['required']">Name is required</div>
+      <div *ngIf="exitUser">Name already exists</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="address">Address</label>
+        <input type="text" class="form-control" id="address" formControlName="address">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input type="text" class="form-control" id="password" formControlName="password">
+        <div *ngIf="validP&&addUser.controls['password'].errors['required']">Password is required</div>
+    </div>
+    <button type="submit" class="btn btn-primary" >register</button>
+</form>
