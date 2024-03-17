@@ -15,7 +15,6 @@ import { Lecturer } from '../models/lecturer.model';
 export class LoginComponent implements OnInit{
     
     loginForm:FormGroup|undefined;
-    
     users:User[];
     lecturers:Lecturer[];
     exitUser:User;
@@ -24,7 +23,6 @@ export class LoginComponent implements OnInit{
     isEnterLecturer:boolean=false;
     wrongNL:boolean=false;
     wrongPL:boolean=false;
-    //courseName:string;
     onSubmit(){
       console.log(this.loginForm.value.name);
       if(this.isEnterLecturer){
@@ -36,6 +34,7 @@ export class LoginComponent implements OnInit{
           this.wrongPL=true;
         }
         else{
+          localStorage.setItem("lecturer",this.exitLecturer.id.toString())
           sessionStorage.setItem("Lecturer",this.loginForm.value.name);
           this.router.navigate(['/courses']);
         }        
@@ -64,9 +63,6 @@ export class LoginComponent implements OnInit{
         "course":new FormControl("")
       });
     }
-    // nameCourse(course:any){
-    //   this.courseName=course.target.value;
-    // }
     ngOnInit(): void {
 
       this._userService.getUsers().subscribe(res=>

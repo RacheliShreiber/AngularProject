@@ -1,64 +1,51 @@
-<p>add-course works!</p>
-
-<!-- <ul class="list-group">
-    <li *ngFor="let c of categories" >
-        {{c.name}}
-    </li>
-</ul> -->
-
-
-
-<form [formGroup]="addCourse" (ngSubmit)="onSubmit()">
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label class="form-label" for="name">Name</label>
       <input type="text" class="form-control" id="name" formControlName="name">
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['name'].errors?.['required']">required!!</div>
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['name'].errors?.['minlength']">the minimum is 2
+      </div>
     </div>
     <div class="mb-3">
       <label class="form-label" for="category">Category</label>
       <select class="form-input" formControlName="category">
         <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
       </select>
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['category'].errors?.['required']">required!!</div>
     </div>
     <div class="mb-3">
       <label class="form-label">Count of Lessons</label>
       <input type="number" class="form-control" formControlName="countOfLessons">
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['countOfLessons'].errors?.['required']">required!!</div>
     </div>
     <div class="mb-3">
-      <label class="form-label">Start</label>
+      <label class="form-label">Start Date</label>
       <input type="date" class="form-control" formControlName="start">
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['start'].errors?.['required']">required!!</div>
     </div>
     <div class="mb-3">
       <label class="form-label">Study</label>
       <div class="form-check form-switch">
-        <input class="form-check-input" type="radio" id="studyF" value="frontal" formControlName="study">
+        <input class="form-check-input" type="radio" id="studyF" value="0" formControlName="study">
         <label class="form-check-label" for="studyF">Frontal</label>
       </div>
       <div class="form-check form-switch">
-        <input class="form-check-input" type="radio" id="studyZ" value="zoom" formControlName="study">
+        <input class="form-check-input" type="radio" id="studyZ" value="1" formControlName="study">
         <label class="form-check-label" for="studyZ">Zoom</label>
       </div>
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['study'].errors?.['required']">required!!</div>
     </div>
     <div class="mb-3">
       <label class="form-label" for="image">Image</label>
       <input type="text" class="form-control" id="image" formControlName="image">
+      <div class="alert alert-danger" *ngIf="validation&&courseForm.controls['image'].errors?.['required']">required!!</div>
     </div>
-
-
-
-    <div class="mb-3" *ngFor="let control of addCourse.get('syllabus').value; let i = index">
-        <input type="text" class="form-control" formControlName="syllabus" #S [value]="xxx" (blur)="onSyllabusBlur(S.value,i)">
-      </div>
-      <!-- <div class="mb-3" (blur)="onSyllabusBlur($event.target)">
-        <input type="text" class="form-control" id="syllabus" formControlName="syllabus">
-        
-      </div>  -->
-
-<div >
-
-</div>
-
+  <div>
+    <label for="syl">The subjects of the lesson:</label>
+    <ng-container *ngFor="let input of inputs; let i = index">
+      <input id="syl"  class="form-control"(blur)="onInput($event, i) ">
+      <div class="alert alert-danger" *ngIf="validation&&inputs.length<2">required!!</div>
+    </ng-container>
+  </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
-  
-  <!-- <button type="button" class="btn btn-primary" (blur)="onAddNewSyllabusItem(newItem.value)">Add Item</button> -->
+</form>

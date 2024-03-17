@@ -16,7 +16,7 @@ namespace serverProject.Controllers
         new Lecturer { id = 4, name = "Bob Brown", address = "101 Pine St", mail = "bob@example.com", password = "password4" },
         new Lecturer { id = 5, name = "Emily Davis", address = "202 Cedar St", mail = "emily@example.com", password = "password5" }
         };
-        private static int counter = 0;
+        private static int counter = 5;
 
 
         // GET: api/<LecturerController>

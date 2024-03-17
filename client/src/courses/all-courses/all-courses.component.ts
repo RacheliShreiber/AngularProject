@@ -14,12 +14,11 @@ export class AllCoursesComponent {
   courses:Course[];
 
   ngOnInit(): void {
-    this._coursesService.getCourses().subscribe(res=>
-      this.courses=res
-    )
+    this._coursesService.getCourses().subscribe(res=>{
+      this.courses=res;
+      console.log(this.courses);
+    }
+    )  
   }
-  constructor(private _coursesService:CourseService){
-    
-  }
-
+  constructor(private _coursesService:CourseService){}
 }

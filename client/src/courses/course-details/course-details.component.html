@@ -1,10 +1,13 @@
-<p>course-details works!</p>
 
-
-<p>{{course.name}}</p>
-<p>{{categoryId?.name}}</p>
-<img src="{{categoryId?.icon}}"/>
-<p>{{course.start}}</p>
-<img src="{{course.image}}"/>
-<button *ngIf="isLecturer" (click)="UpdateCourseDetails">update course details</button>
-
+ <div *ngIf="!update"  class="card" style="width: 18rem; border-color: turquoise;">
+    <img src="{{ course?.image }}" class="card-img-top" alt="..." style="height: 80px; width: 100px;">
+    <div class="card-body">
+        <h5 class="card-title"><span style="font-weight: bold;">{{ course?.name }}</span></h5>
+        <p class="card-text"><span style="font-weight: bold;">Category:</span><i class="{{ itemCategory?.icon }}"></i><span style="font-weight: bold;">{{ itemCategory?.name }}</span></p>
+        <p class="card-text"><span style="font-weight: bold;">Count of Lessons:</span> {{ course?.countOfLessons }}</p>
+        <p class="card-text"><span [ngStyle]="{ 'font-weight': isNextWeek(course?.start) ? 'bold' : 'normal' }">Start:</span> {{ course?.start }}
+        </p>
+        <button href="#" class="btn btn-primary" style="background-color: turquoise;" (click)="UpdateCourseDetails()" [disabled]="!isLecturer">Update</button>
+    </div>  
+  </div>
+  <edit-course *ngIf="update" [course]="course"></edit-course> 

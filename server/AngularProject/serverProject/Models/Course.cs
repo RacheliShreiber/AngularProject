@@ -2,9 +2,8 @@
 {
     public enum Study
     {
-        Online,
-        Offline,
-        Hybrid
+        Frontal,
+        Zoom
     }
     public class Course
     {

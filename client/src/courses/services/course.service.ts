@@ -12,6 +12,10 @@ export class CourseService{
     addCourse(course:Course):Observable<Course>{
         return this._http.post<Course>("https://localhost:7175/api/Course",course);
     }
+
+    updateCourse(course: Course): Observable<Course> {
+        return this._http.put<Course>(`https://localhost:7175/api/Course/${course.id}`, course);
+    }
     constructor(private _http:HttpClient){
 
     }

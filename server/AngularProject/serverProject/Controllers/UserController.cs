@@ -11,11 +11,11 @@ namespace serverProject.Controllers
     {
         private static List<User> users = new List<User>
         {
-            new User { id = 1, name = "John Doe",      mail = "john@example.com", password = "password1" },
-            new User { id = 2, name = "Jane Smith",    mail = "jane@example.com", password = "password2" },
-            new User { id = 3, name = "Alice Johnson", mail = "alice@example.com",password = "password3" }
+            new User { id = 1, name = "John Doe",      email = "john@example.com", password = "password1" },
+            new User { id = 2, name = "Jane Smith",    email = "jane@example.com", password = "password2" },
+            new User { id = 3, name = "Alice Johnson", email = "alice@example.com",password = "password3" }
         };
-        private static int counter = 0;
+        private static int counter = 3;
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<User> Get()
@@ -32,10 +32,11 @@ namespace serverProject.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] User value)
+        public User Post([FromBody] User value)
         {
             value.id = ++counter;
             users.Add(value);
+            return value;
         }
 
         // PUT api/<UserController>/5
@@ -51,7 +52,8 @@ namespace serverProject.Controllers
             else
             {
                 u.name = value.name;
-                u.mail = value.mail;
+                u.address = value.address;
+                u.email = value.email;
                 u.password = value.password;
             }
         }

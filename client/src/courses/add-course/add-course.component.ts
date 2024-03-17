@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
 import { Course } from '../models/course.model';
-// import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { CourseService } from '../services/course.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'add-course',
   //standalone: true,
@@ -12,101 +14,67 @@ import { Course } from '../models/course.model';
   styleUrl: './add-course.component.scss'
 })
 export class AddCourseComponent {
-
+  validation:boolean=false;
+  courseToAdd: Course;
   categories:Category[];
-  addCourse:FormGroup=new FormGroup({});
+  courseForm:FormGroup=new FormGroup({});
   xxx:string;
-  @Input()
-  course:Course;
- // str:number[];
-// i:number=0;
-  str:string[]=[];
-  onSubmit(){
-    console.log(this.addCourse.value)
-  }
-  onSyllabusBlur(s:string,i:number) {
-    // console.log("");
-
-    console.log(this.xxx);
-    console.log(s);
-      //const syllabusControl = new FormControl(this.xxx);
-      //(this.addCourse.get('syllabus') as FormArray).clear;
-      this.str.push(s);
-      (this.addCourse.get('syllabus') as FormArray).push(new FormControl(""));
-      //(this.addCourse.get('syllabus') as FormArray).push(new FormControl(""));
-      //console.log(this.addCourse["syllabus"])
-      //this.addCourse.get('syllabus').value[i]=s;
-      this.xxx=""
-      //this.addCourse.get('syllabus').value[i+1]="";
-      s=""
-      //this.i++;
-      //this.str.push(this.i);
-    for (let index = 0; index < this.str.length; index++) {
-      this.addCourse.get('syllabus').value[i]=this.str[i];
-      
-    }
-      this.str.forEach(element => {
-        
-      });
-      console.log(this.str);
-      console.log(this.addCourse.get('syllabus'));
-    }
- 
-  // onAddNewSyllabusItem(value: string) {
-  //   const syllabusControl = new FormControl(value);
-  //   (this.addCourse.get('syllabus') as FormArray).push(syllabusControl);
-  // }
   
-
-  // onSyllabusBlur(value: string) {
-  //   // console.log("");
-
-  //   console.log(value);
-  //     const syllabusControl = new FormControl(value);
-  //     //(this.addCourse.get('syllabus') as FormArray).clear;
-  //     //(this.addCourse.get('syllabus') as FormArray).push(new FormControl(""));
-  //     //(this.addCourse.get('syllabus') as FormArray).push(new FormControl(""));
-  //     //console.log(this.addCourse["syllabus"])
-  //     this.addCourse.get('syllabus').value[this.i]=value;
-  //     this.addCourse.get('syllabus').value[this.i+1]="";
-  //     this.i++;
-  //     this.str.push(this.i);
-  //     console.log(this.addCourse.get('syllabus'));
-  //   }
- 
-
+  inputs:string[]=[''];
+  l:number=this.inputs.length;
+  onSubmit(){
+    console.log(this.courseForm.value);
+    this.validation = (!this.courseForm.valid || this.inputs.length < 2) ? true : false;
+    if(this.validation==false){
+      this.courseToAdd = {
+        "id": 0,
+        "lecturer":localStorage.getItem('lecturer'),
+        "name": this.courseForm.value.name,
+        "category": +this.courseForm.value.category,
+        "countOfLessons": +this.courseForm.value.countOfLessons,
+        "start": this.courseForm.value.start,
+        "syllabus": this.inputs,
+        "study": +this.courseForm.value.study,
+        "image": this.courseForm.value.image
+      };
+      console.log("corse to add", this.courseToAdd);
+      this._courseService.addCourse(this.courseToAdd).subscribe(s => {
+        console.log("s", s);
+        if (s != undefined) {
+          Swal.fire("Success", "The course was saved successfully!!!", "success");
+          this.router.navigate(['/courses']);
+        } 
+      })
+    }
+  }
+  onInput(event: Event, index: number): void {
+   
+    const target = event.target as HTMLInputElement;
+    console.log("ddd",target.value);
+    const value = target.value.trim();
+    if (value && index === this.inputs.length - 1) {
+      this.inputs.push(value);
+    } 
+    else if (!value && index < this.inputs.length - 1) {
+      this.inputs.splice(index + 1, 1);
+    }
+    this.l=this.inputs.length;
+    console.log(this.inputs)
+  }
   ngOnInit(): void {
 
     this._categoryService.getCategory().subscribe(res=>{
       console.log("category is: "+res);
-      this.categories=res
-      
-      
-    })
-      
-    if(this.course==undefined){
-      this.addCourse=new FormGroup({
-       "name":new FormControl(""),
-       "category":new FormControl(""),
-       "countOfLessons":new FormControl(""),
-       "start":new FormControl(""),
-       "study":new FormControl(""),
-       "image":new FormControl(""),
-       "syllabus":new FormArray([new FormControl("")])
-     })
-   }
-   else{
-     this.addCourse=new FormGroup({
-       "name":new FormControl(this.course.name),
-       "category":new FormControl(this.course.category),
-       "countOfLessons":new FormControl(this.course.countOfLessons),
-       "start":new FormControl(this.course.start),
-       "study":new FormControl(this.course.study),
-       "image":new FormControl(this.course.image),
-       "syllabus":new FormArray([])
-     })
-   }
-    
+      this.categories=res 
+    })   
+    this.courseForm=new FormGroup({
+      "name":new FormControl("",[Validators.required, Validators.minLength(2)]),
+      "category":new FormControl("",Validators.required),
+      "countOfLessons":new FormControl("",Validators.required),
+      "start":new FormControl("",Validators.required),
+      "study":new FormControl("",Validators.required),
+      "image":new FormControl("",Validators.required)
+    }) 
   }
-  constructor(private _categoryService:CategoryService){}
+  constructor(private _categoryService:CategoryService,private _courseService:CourseService,private router:Router){}
 }
