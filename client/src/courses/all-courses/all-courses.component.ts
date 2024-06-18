@@ -14,7 +14,7 @@ export class AllCoursesComponent {
   courses:Course[];
 
   ngOnInit(): void {
-    this._coursesService.getCourses().subscribe(res=>{
+    this._coursesService.courses$.subscribe(res=>{
       this.courses=res;
       console.log(this.courses);
     }

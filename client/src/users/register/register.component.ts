@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit,OnDestroy{
         console.log(this.user);
         this._userService.addUser(this.user).subscribe(res=>{
           console.log(res);
+          this._userService.refreshUsers();
           this.router.navigate(['/courses']);
         });
         
@@ -39,7 +40,7 @@ export class RegisterComponent implements OnInit,OnDestroy{
     }    
   }
   ngOnInit(): void {
-    this._userService.getUsers().subscribe(res=>{
+    this._userService.users$.subscribe(res=>{
       console.log("category is: "+res);
       this.users=res
     })

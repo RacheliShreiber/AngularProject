@@ -50,6 +50,7 @@ export class EditCourseComponent {
         if (s != undefined) {
           console.log("s"+s);
           Swal.fire("Success", "The course was updated successfully!!!", "success");
+          this._courseService.refreshCourses();
           this.router.navigate(['/courses']);
         }     
       })

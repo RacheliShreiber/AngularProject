@@ -42,6 +42,7 @@ export class AddCourseComponent {
         console.log("s", s);
         if (s != undefined) {
           Swal.fire("Success", "The course was saved successfully!!!", "success");
+          this._courseService.refreshCourses();
           this.router.navigate(['/courses']);
         } 
       })
